@@ -4,6 +4,7 @@ import tkinter as tk
 class Calculate:
     def __new__(cls):
         _instance = None
+
         if _instance is None:
             _instance = super().__new__(cls)
         return _instance
