@@ -14,10 +14,10 @@ class Calculate:
         self.entry1 = tk.Entry(self.root, width=20)
         self.label2 = tk.Label(self.root, text='Введите второе число')
         self.entry2 = tk.Entry(self.root, width=20)
-        self.button_mul = tk.Button(self.root, text='*', width=2, height=1, command=self._mul_func)
-        self.button_sub = tk.Button(self.root, text='-', width=2, height=1, command=self._mul_sub)
-        self.button_add = tk.Button(self.root, text='+', width=2, height=1, command=self._mul_add)
-        self.button_div = tk.Button(self.root, text='/', width=2, height=1, command=self._mul_div)
+        self.button_mul = tk.Button(self.root, text='*', width=2, height=1, command=self._mul)
+        self.button_sub = tk.Button(self.root, text='-', width=2, height=1, command=self._sub)
+        self.button_add = tk.Button(self.root, text='+', width=2, height=1, command=self._add)
+        self.button_div = tk.Button(self.root, text='/', width=2, height=1, command=self._div)
         self.label3 = tk.Label(self.root, text='Ответ:')
         self.entry3 = tk.Entry(self.root, width=40)
 
@@ -35,46 +35,46 @@ class Calculate:
         self.label3.place(x=30, y=250)
         self.entry3.place(x=80, y=250)
 
-    def is_valid_data(self) -> bool:
-        return self.entry1.get().isdigit() and self.entry2.get().isdigit()
+    def get_values(self):
+        return int(self.entry1.get()), int(self.entry2.get())
 
-    def _mul_func(self) -> None:
+    def _mul(self) -> None:
         self.entry3.delete(0, tk.END)
-        if self.is_valid_data():
-            num1 = int(self.entry1.get())
-            num2 = int(self.entry2.get())
-            self.entry3.insert(0, str(num1 * num2))
-        else:
+        try:
+            num1, num2 = self.get_values()
+            result = num1 * num2
+            self.entry3.insert(tk.END, str(result))
+        except ValueError:
             self.entry3.insert(0, 'Некорректные данные!')
 
-    def _mul_sub(self) -> None:
+    def _sub(self) -> None:
         self.entry3.delete(0, tk.END)
-        if self.is_valid_data():
-            num1 = int(self.entry1.get())
-            num2 = int(self.entry2.get())
-            self.entry3.insert(0, str(num1 - num2))
-        else:
+        try:
+            num1, num2 = self.get_values()
+            result = num1 - num2
+            self.entry3.insert(tk.END, str(result))
+        except ValueError:
             self.entry3.insert(0, 'Некорректные данные!')
 
-    def _mul_add(self) -> None:
+    def _add(self) -> None:
         self.entry3.delete(0, tk.END)
-        if self.is_valid_data():
-            num1 = int(self.entry1.get())
-            num2 = int(self.entry2.get())
-            self.entry3.insert(0, str(num1 + num2))
-        else:
+        try:
+            num1, num2 = self.get_values()
+            result = num1 + num2
+            self.entry3.insert(tk.END, str(result))
+        except ValueError:
             self.entry3.insert(0, 'Некорректные данные!')
 
-    def _mul_div(self) -> None:
+    def _div(self) -> None:
         self.entry3.delete(0, tk.END)
-        if self.is_valid_data():
-            num1 = int(self.entry1.get())
-            num2 = int(self.entry2.get())
-            if num2:
-                self.entry3.insert(0, str(num1 / num2))
-            else:
+        try:
+            num1, num2 = self.get_values()
+            try:
+                result = num1 / num2
+                self.entry3.insert(0, str(result))
+            except ZeroDivisionError:
                 self.entry3.insert(0, 'На ноль делить нельзя!')
-        else:
+        except ValueError:
             self.entry3.insert(0, 'Некорректные данные!')
 
     def start(self) -> None:
